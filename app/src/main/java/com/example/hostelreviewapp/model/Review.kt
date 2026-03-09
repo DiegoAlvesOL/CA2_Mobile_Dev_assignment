@@ -7,6 +7,9 @@ class Review (
     val valueForMoneyRating: Float,
     val staffRating: Float
 ){
+
+
+    // Function dedicated to calculating the weighted average according to Assignment requirements
     fun calculateReviewScore(): Float{
         val locationWeight = locationRating *0.40f
 

@@ -10,6 +10,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
@@ -29,13 +30,14 @@ import com.example.hostelreviewapp.model.Review
 
 @Composable
 fun ReviewForm(){
+
+    // I'm using 'remember' so Compose keeps the variable values even when the screen is redrawn.
+    // The 'mutableStateOf' creates a state that, when changed, tells the UI to update itself automatically.
     var email by remember { mutableStateOf("") }
     var daysStayed by remember { mutableStateOf("") }
-
     var locationRating by remember { mutableStateOf(5f) }
     var valueRating by remember { mutableStateOf(5f) }
     var staffRating by remember { mutableStateOf(5f) }
-
     var resultMessage by remember { mutableStateOf("") }
 
     Column(modifier = Modifier
@@ -102,9 +104,15 @@ fun ReviewForm(){
 
         Spacer(modifier = Modifier.height(24.dp))
         Button(
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF550000),
+                contentColor = Color.White),
             onClick = {
+
+                // Validation to check that mandatory fields are not empty
                 if (email.isNotEmpty() && daysStayed.isNotEmpty()){
 
+                    // Sent to my Review class with the interface data
                     val myReview = Review(
                         email = email,
                         daysStayed = daysStayed.toIntOrNull() ?: 0,
@@ -113,10 +121,12 @@ fun ReviewForm(){
                         staffRating = staffRating
                     )
 
+                    // Calling the function in the Review class to calculate the final score
                     val score = myReview.calculateReviewScore()
 
                     resultMessage = "Review submitted! Score: $score"
 
+                    // Resetting the fields to their initial state after successful submission
                     email = ""
                     daysStayed = ""
                     locationRating = 5f

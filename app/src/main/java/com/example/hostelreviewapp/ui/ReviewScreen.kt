@@ -23,6 +23,7 @@ fun ReviewScreen(){
         Text(
             text = "Hostel Review App"
         )
+        //Calling the separate form to keep the code organised and modular
         ReviewForm()
     }
 }
